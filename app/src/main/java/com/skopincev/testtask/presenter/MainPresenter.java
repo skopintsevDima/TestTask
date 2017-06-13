@@ -12,6 +12,5 @@ public interface MainPresenter {
     void attach(MainView view);
     void detach();
     void signIn();
-    void signOut();
     void onSignInResult(Intent data);
 }

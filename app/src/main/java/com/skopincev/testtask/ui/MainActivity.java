@@ -1,39 +1,41 @@
-package com.skopincev.testtask;
+package com.skopincev.testtask.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.skopincev.testtask.R;
+import com.skopincev.testtask.dagger.base_ui.BaseActivity;
+import com.skopincev.testtask.dagger.component.ActivityComponent;
 import com.skopincev.testtask.presenter.MainPresenter;
 import com.skopincev.testtask.presenter.MainPresenterImpl;
 import com.skopincev.testtask.view.MainView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         OnConnectionFailedListener,
         MainView {
 
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String KEY_USER_EMAIL = "KEY_USER_EMAIL";
 
-    private MainPresenter presenter;
+    @Inject
+    MainPresenter presenter;
 
     @BindView(R.id.btn_sign_in)
     SignInButton btn_sign_in;
-
-    @BindView(R.id.btn_sign_out)
-    Button btn_sign_out;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +43,18 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        presenter = new MainPresenterImpl();
         presenter.attach(this);
         initUI();
+    }
+
+    @Override
+    public void inject(ActivityComponent injector) {
+        injector.inject(this);
     }
 
     private void initUI() {
         if (btn_sign_in != null) {
             btn_sign_in.setSize(SignInButton.SIZE_STANDARD);
-        }
-        if (btn_sign_out != null) {
-            btn_sign_out.setHeight(btn_sign_out.getHeight());
         }
     }
 
@@ -63,11 +66,6 @@ public class MainActivity extends AppCompatActivity implements
     @OnClick(R.id.btn_sign_in)
     void signIn() {
         presenter.signIn();
-    }
-
-    @OnClick(R.id.btn_sign_out)
-    void signOut() {
-        presenter.signOut();
     }
 
     @Override
@@ -86,18 +84,14 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void openContacts(String userEmail) {
-        //Intent intent = new Intent(this, );
+        Intent intent = new Intent(this, ContactsActivity.class);
+        intent.putExtra(KEY_USER_EMAIL, userEmail);
+        startActivity(intent);
     }
 
     @Override
     public void onSignInNotSucceed() {
         Toast.makeText(this, R.string.sign_in_failed_message, Toast.LENGTH_SHORT)
-                .show();
-    }
-
-    @Override
-    public void onSignOut(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT)
                 .show();
     }
 
