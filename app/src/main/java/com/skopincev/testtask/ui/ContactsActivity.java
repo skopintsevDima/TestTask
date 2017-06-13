@@ -55,10 +55,17 @@ public class ContactsActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         presenter.detach();
+        presenter = null;
     }
 
     @Override
     public void onSignOut() {
         finish();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT)
+                .show();
     }
 }

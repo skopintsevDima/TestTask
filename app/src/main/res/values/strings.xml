@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Test task</string>
+    <string name="sign_in_failed_message">Sign in failed!</string>
+    <string name="btn_sign_out_text">Выйти</string>
+    <string name="logout">Logout</string>
+    <string name="sort">Sort</string>
+</resources>

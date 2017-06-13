@@ -9,5 +9,5 @@ import android.content.Intent;
 public interface MainView {
     void startValidationActivity(Intent intent);
     void openContacts(String userEmail);
-    void onSignInNotSucceed();
+    void showMessage(String message);
 }

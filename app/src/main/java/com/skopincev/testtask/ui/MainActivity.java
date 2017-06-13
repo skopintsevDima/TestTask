@@ -90,8 +90,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSignInNotSucceed() {
-        Toast.makeText(this, R.string.sign_in_failed_message, Toast.LENGTH_SHORT)
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT)
                 .show();
     }
 
