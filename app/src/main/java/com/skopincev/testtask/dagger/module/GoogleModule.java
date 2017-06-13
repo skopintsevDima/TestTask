@@ -1,7 +1,9 @@
 package com.skopincev.testtask.dagger.module;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -24,11 +26,21 @@ import dagger.Provides;
 @Module
 public class GoogleModule {
 
+    public static final String TAG = GoogleModule.class.getSimpleName();
+
+    @Singleton
     @Provides
     public GoogleApiClient getClient(GoogleSignInOptions googleSignInOptions, Context context) {
-        return new GoogleApiClient.Builder(context)
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Log.d(TAG, connectionResult.getErrorMessage());
+                    }
+                })
                 .build();
+        return googleApiClient;
     }
 
     @Provides

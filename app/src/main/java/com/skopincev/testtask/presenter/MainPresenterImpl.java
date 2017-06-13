@@ -1,12 +1,15 @@
 package com.skopincev.testtask.presenter;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.skopincev.testtask.R;
 import com.skopincev.testtask.view.MainView;
 
 import javax.inject.Inject;
@@ -52,6 +55,7 @@ public class MainPresenterImpl implements MainPresenter {
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
+            googleApiClient.connect();
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
                 String userEmail = account.getEmail();
@@ -59,10 +63,10 @@ public class MainPresenterImpl implements MainPresenter {
                 view.openContacts(userEmail);
             }
             else {
-                Log.d(TAG, "Account is NULL!");
+                Log.d(TAG, "Account is null!");
             }
         } else {
-            view.onSignInNotSucceed();
+            view.showMessage(Resources.getSystem().getString(R.string.sign_in_failed_message));
         }
     }
 }

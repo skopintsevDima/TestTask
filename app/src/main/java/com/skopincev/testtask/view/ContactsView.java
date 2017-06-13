@@ -6,4 +6,5 @@ package com.skopincev.testtask.view;
 
 public interface ContactsView {
     void onSignOut();
+    void showMessage(String message);
 }

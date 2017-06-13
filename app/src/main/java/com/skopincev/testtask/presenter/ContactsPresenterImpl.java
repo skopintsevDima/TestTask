@@ -45,13 +45,14 @@ public class ContactsPresenterImpl implements ContactsPresenter {
                     new ResultCallback<Status>() {
                         @Override
                         public void onResult(Status status) {
+                            googleApiClient.stopAutoManage((MainActivity)view);
                             googleApiClient.disconnect();
                             view.onSignOut();
                         }
                     });
         }
         else {
-            Log.d(TAG, "User isn't connected!");
+            view.showMessage("User isn't connected!");
         }
     }
 }
