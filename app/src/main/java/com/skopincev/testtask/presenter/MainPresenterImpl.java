@@ -34,8 +34,6 @@ public class MainPresenterImpl implements MainPresenter {
     @Inject
     GoogleApiClient googleApiClient;
 
-    private Thread silentSignInThread;
-
     @Inject
     public MainPresenterImpl(){
 
@@ -59,7 +57,7 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void silentSignIn() {
-        silentSignInThread = new Thread(new Runnable() {
+        Thread silentSignInThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -67,13 +65,12 @@ public class MainPresenterImpl implements MainPresenter {
                     if (result.isSuccess()) {
                         final GoogleSignInResult googleSignInResult =
                                 Auth.GoogleSignInApi.silentSignIn(googleApiClient).await();
-                        ((MainActivity)view).runOnUiThread(new Runnable() {
+                        ((MainActivity) view).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (googleSignInResult.isSuccess()) {
                                     handleSignInResult(googleSignInResult);
-                                }
-                                else {
+                                } else {
                                     view.initUI();
                                 }
                             }

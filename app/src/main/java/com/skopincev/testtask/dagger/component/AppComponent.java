@@ -2,6 +2,7 @@ package com.skopincev.testtask.dagger.component;
 
 import com.skopincev.testtask.dagger.App;
 import com.skopincev.testtask.dagger.module.AppModule;
+import com.skopincev.testtask.dagger.module.DBModule;
 import com.skopincev.testtask.dagger.module.GoogleModule;
 import com.skopincev.testtask.dagger.module.PrefModule;
 import com.skopincev.testtask.dagger.module.PresenterModule;
@@ -20,7 +21,8 @@ import dagger.Component;
         AppModule.class,
         PresenterModule.class,
         GoogleModule.class,
-        PrefModule.class
+        PrefModule.class,
+        DBModule.class
 })
 /**
  * Application component. Source component for all sub-components.
@@ -41,6 +43,7 @@ public interface AppComponent {
                     .presenterModule(new PresenterModule())
                     .googleModule(new GoogleModule())
                     .prefModule(new PrefModule())
+                    .dBModule(new DBModule())
                     .build();
         }
     }
