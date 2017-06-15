@@ -1,16 +1,15 @@
 package com.skopincev.testtask.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.skopincev.testtask.R;
-import com.skopincev.testtask.dagger.base_ui.BaseActivity;
+import com.skopincev.testtask.dagger.base.BaseActivity;
 import com.skopincev.testtask.dagger.component.ActivityComponent;
 import com.skopincev.testtask.presenter.ContactsPresenter;
-import com.skopincev.testtask.presenter.ContactsPresenterImpl;
 import com.skopincev.testtask.view.ContactsView;
 
 import javax.inject.Inject;
@@ -60,6 +59,8 @@ public class ContactsActivity extends BaseActivity
 
     @Override
     public void onSignOut() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

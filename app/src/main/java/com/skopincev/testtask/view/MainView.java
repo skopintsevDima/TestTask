@@ -10,4 +10,5 @@ public interface MainView {
     void startValidationActivity(Intent intent);
     void openContacts(String userEmail);
     void showMessage(String message);
+    void initUI();
 }

@@ -1,4 +1,4 @@
-package com.skopincev.testtask.dagger.base_ui;
+package com.skopincev.testtask.dagger.base;
 
 /**
  * Created by raisa on 19.03.17.

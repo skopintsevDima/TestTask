@@ -1,5 +1,6 @@
 package com.skopincev.testtask.presenter;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
@@ -17,9 +18,12 @@ import javax.inject.Inject;
 
 public class ContactsPresenterImpl implements ContactsPresenter {
     private static final String TAG = ContactsPresenterImpl.class.getSimpleName();
+    private static final String KEY_USER_TOKEN = "KEY_USER_TOKEN";
 
     private ContactsView view;
 
+    @Inject
+    SharedPreferences mainPref;
     @Inject
     GoogleApiClient googleApiClient;
 
@@ -38,8 +42,22 @@ public class ContactsPresenterImpl implements ContactsPresenter {
         view = null;
     }
 
-    private void revokeAccess(){
+    private void deleteToken(){
+        mainPref.edit()
+                .remove(KEY_USER_TOKEN)
+                .apply();
+    }
 
+    private void revokeAccess(){
+        Auth.GoogleSignInApi.revokeAccess(googleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        if (status.isSuccess()){
+                            deleteToken();
+                        }
+                    }
+                });
     }
 
     @Override

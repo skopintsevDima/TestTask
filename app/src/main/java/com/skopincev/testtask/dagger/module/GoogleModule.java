@@ -1,18 +1,14 @@
 package com.skopincev.testtask.dagger.module;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.skopincev.testtask.dagger.App;
-import com.skopincev.testtask.ui.MainActivity;
+import com.skopincev.testtask.R;
 
 import javax.inject.Singleton;
 
@@ -23,7 +19,7 @@ import dagger.Provides;
  * Created by skopi on 13.06.2017.
  */
 
-@Module
+@Module(includes = AppModule.class)
 public class GoogleModule {
 
     public static final String TAG = GoogleModule.class.getSimpleName();
@@ -44,8 +40,9 @@ public class GoogleModule {
     }
 
     @Provides
-    public GoogleSignInOptions getSignInOptions(){
+    public GoogleSignInOptions getSignInOptions(Context context){
         return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(context.getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
     }

@@ -2,7 +2,6 @@ package com.skopincev.testtask.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,10 +10,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.skopincev.testtask.R;
-import com.skopincev.testtask.dagger.base_ui.BaseActivity;
+import com.skopincev.testtask.dagger.base.BaseActivity;
 import com.skopincev.testtask.dagger.component.ActivityComponent;
 import com.skopincev.testtask.presenter.MainPresenter;
-import com.skopincev.testtask.presenter.MainPresenterImpl;
 import com.skopincev.testtask.view.MainView;
 
 import javax.inject.Inject;
@@ -40,11 +38,8 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
         presenter.attach(this);
-        initUI();
+        presenter.silentSignIn();
     }
 
     @Override
@@ -52,7 +47,11 @@ public class MainActivity extends BaseActivity implements
         injector.inject(this);
     }
 
-    private void initUI() {
+    @Override
+    public void initUI() {
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
         if (btn_sign_in != null) {
             btn_sign_in.setSize(SignInButton.SIZE_STANDARD);
         }
@@ -87,6 +86,7 @@ public class MainActivity extends BaseActivity implements
         Intent intent = new Intent(this, ContactsActivity.class);
         intent.putExtra(KEY_USER_EMAIL, userEmail);
         startActivity(intent);
+        finish();
     }
 
     @Override
