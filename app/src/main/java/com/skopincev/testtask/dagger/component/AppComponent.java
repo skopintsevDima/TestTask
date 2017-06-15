@@ -3,6 +3,7 @@ package com.skopincev.testtask.dagger.component;
 import com.skopincev.testtask.dagger.App;
 import com.skopincev.testtask.dagger.module.AppModule;
 import com.skopincev.testtask.dagger.module.GoogleModule;
+import com.skopincev.testtask.dagger.module.PrefModule;
 import com.skopincev.testtask.dagger.module.PresenterModule;
 
 import javax.inject.Singleton;
@@ -14,12 +15,12 @@ import dagger.Component;
  * Created by raisa on 19.03.17.
  */
 
-
 @Singleton
 @Component(modules = {
         AppModule.class,
         PresenterModule.class,
-        GoogleModule.class
+        GoogleModule.class,
+        PrefModule.class
 })
 /**
  * Application component. Source component for all sub-components.
@@ -39,6 +40,7 @@ public interface AppComponent {
                     .appModule(new AppModule(app))
                     .presenterModule(new PresenterModule())
                     .googleModule(new GoogleModule())
+                    .prefModule(new PrefModule())
                     .build();
         }
     }

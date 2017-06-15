@@ -38,6 +38,10 @@ public class ContactsPresenterImpl implements ContactsPresenter {
         view = null;
     }
 
+    private void revokeAccess(){
+
+    }
+
     @Override
     public void signOut() {
         if (googleApiClient != null && googleApiClient.isConnected()) {
@@ -45,8 +49,11 @@ public class ContactsPresenterImpl implements ContactsPresenter {
                     new ResultCallback<Status>() {
                         @Override
                         public void onResult(Status status) {
-                            googleApiClient.disconnect();
-                            view.onSignOut();
+                            if (status.isSuccess()) {
+                                revokeAccess();
+                                googleApiClient.disconnect();
+                                view.onSignOut();
+                            }
                         }
                     });
         }
