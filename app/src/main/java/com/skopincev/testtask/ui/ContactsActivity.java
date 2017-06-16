@@ -2,7 +2,6 @@ package com.skopincev.testtask.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +33,8 @@ public class ContactsActivity extends BaseActivity
 
     @BindView(R.id.rv_contacts_list)
     RecyclerView recyclerView;
+    private ContactsRecyclerAdapter adapter;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +43,11 @@ public class ContactsActivity extends BaseActivity
         ButterKnife.bind(this);
 
         presenter.attach(this);
-        loadResults();
-    }
-
-    private void loadResults()
-    {
-        String email = null;
         if (getIntent() != null) {
-            email = getIntent().getStringExtra(KEY_USER_EMAIL);
+            userEmail = getIntent().getStringExtra(KEY_USER_EMAIL);
+            if (userEmail != null)
+                presenter.loadContacts(userEmail);
         }
-        presenter.loadContacts(email);
     }
 
     @Override
@@ -70,6 +66,10 @@ public class ContactsActivity extends BaseActivity
         switch (item.getItemId()){
             case R.id.mi_logout:{
                 presenter.signOut();
+                break;
+            }
+            case R.id.mi_add:{
+                presenter.addContact(userEmail);
                 break;
             }
         }
@@ -102,8 +102,12 @@ public class ContactsActivity extends BaseActivity
         LinearLayoutManager llm = new LinearLayoutManager(this);
         DividerItemDecoration divider = new DividerItemDecoration(this, llm.getOrientation());
         recyclerView.addItemDecoration(divider);
-
-        ContactsRecyclerAdapter adapter = new ContactsRecyclerAdapter(this, contacts);
+        adapter = new ContactsRecyclerAdapter(this, contacts);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onContactAdded(Contact contact) {
+        adapter.add(contact);
     }
 }

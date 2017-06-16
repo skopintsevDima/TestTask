@@ -9,7 +9,11 @@ import java.util.List;
  */
 
 public interface StorioSqlApi {
+    void put(Contact contact);
+
     void putContacts(List<Contact> contacts);
 
     List<Contact> getContactsByEmail(String email);
+
+    void clearDB();
 }

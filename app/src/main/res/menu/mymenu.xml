@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mi_add"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_add_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/add">
+    </item>
 
     <item
         android:id="@+id/mi_sort"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_sort_black_24dp"
+        app:showAsAction="ifRoom"
         android:title="@string/sort">
     </item>
 
     <item
         android:id="@+id/mi_logout"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
+        android:icon="@drawable/ic_logout_black_24dp"
+        app:showAsAction="ifRoom"
         android:title="@string/logout">
     </item>
 

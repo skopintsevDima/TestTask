@@ -3,12 +3,14 @@ package com.skopincev.testtask.db.storio;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.Query;
+import com.pushtorefresh.storio.sqlite.queries.RawQuery;
 import com.skopincev.testtask.db.DBContract;
 import com.skopincev.testtask.db.DBHelper;
 import com.skopincev.testtask.db.dao.ContactGetResolver;
 import com.skopincev.testtask.db.dao.ContactPutResolver;
 import com.skopincev.testtask.db.entity.Contact;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,6 +35,7 @@ public class StorioSqlApiImpl implements StorioSqlApi {
         contactGetResolver = new ContactGetResolver();
     }
 
+    @Override
     public void put(Contact contact) {
         storIOSQLite.put()
                 .object(contact)
@@ -59,6 +62,16 @@ public class StorioSqlApiImpl implements StorioSqlApi {
                         .build()
                 )
                 .withGetResolver(contactGetResolver)
+                .prepare()
+                .executeAsBlocking();
+    }
+
+    @Override
+    public void clearDB() {
+        storIOSQLite.executeSQL()
+                .withQuery(RawQuery.builder()
+                        .query("DELETE FROM " + DBContract.ContactContract.TABLE_NAME)
+                        .build())
                 .prepare()
                 .executeAsBlocking();
     }

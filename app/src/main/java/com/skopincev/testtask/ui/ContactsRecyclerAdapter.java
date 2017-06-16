@@ -43,6 +43,11 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
         this.items = items;
     }
 
+    public void add(Contact contact){
+        items.add(contact);
+        notifyItemInserted(items.size() - 1);
+    }
+
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.rvi_contact, parent, false);

@@ -12,4 +12,5 @@ public interface ContactsView {
     void onSignOut();
     void showMessage(String message);
     void onContactsLoaded(List<Contact> contacts);
+    void onContactAdded(Contact contact);
 }

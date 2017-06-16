@@ -90,19 +90,26 @@ public class ContactsPresenterImpl implements ContactsPresenter {
     @Override
     public void loadContacts(String email) {
         //TODO: remove mock
-//        List<Contact> mockContacts = new ArrayList<>();
-//        Contact contact1 = new Contact(email, "Dima", "Skopintsev", "skopincev2015@ukr.net", "+380689840854");
-//        Contact contact2 = new Contact(email, "Ruslan", "Buriak", "buriak2015@ukr.net", "+380689840855");
-//        Contact contact3 = new Contact(email, "Vasya", "Dikiy", "dikiy2015@ukr.net", "+380689840856");
-//        mockContacts.add(contact1);
-//        mockContacts.add(contact2);
-//        mockContacts.add(contact3);
-//        sqlApi.putContacts(mockContacts);
+        sqlApi.clearDB();
+        List<Contact> mockContacts = new ArrayList<>();
+        Contact contact1 = new Contact(email, "Dima", "Skopintsev", "skopincev2015@ukr.net", "+380689840854");
+        Contact contact2 = new Contact(email, "Ruslan", "Buriak", "buriak2015@ukr.net", "+380689840855");
+        Contact contact3 = new Contact(email, "Vasya", "Dikiy", "dikiy2015@ukr.net", "+380689840856");
+        mockContacts.add(contact1);
+        mockContacts.add(contact2);
+        mockContacts.add(contact3);
+        sqlApi.putContacts(mockContacts);
 
-        List<Contact> contacts = sqlApi.getContactsByEmail(email);
+        List<Contact> contacts = new ArrayList<>(sqlApi.getContactsByEmail(email));
 
-        if (contacts != null){
-            view.onContactsLoaded(contacts);
-        }
+        view.onContactsLoaded(contacts);
+    }
+
+    @Override
+    public void addContact(String email) {
+        //TODO: remove mock
+        Contact contact = new Contact(email, "Mariya", "Nuzhna", "nuzhna2015@ukr.net", "+380689840856");
+        sqlApi.put(contact);
+        view.onContactAdded(contact);
     }
 }

@@ -13,4 +13,5 @@ public interface ContactsPresenter {
     void detach();
     void signOut();
     void loadContacts(String email);
+    void addContact(String email);
 }
