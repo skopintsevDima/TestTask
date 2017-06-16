@@ -78,11 +78,11 @@ public class ContactsActivity extends BaseActivity
         dialogBuilder.setPositiveButton(getString(R.string.confirm_dialog_positive_answer), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                List<Contact> deletedContacts = new ArrayList<>();
+                List<Contact> deletingContacts = new ArrayList<>();
                 for (Integer position: adapter.getCheckedItems()){
-                    deletedContacts.add(contacts.get(position));
+                    deletingContacts.add(contacts.get(position));
                 }
-                presenter.deleteContacts(deletedContacts);
+                presenter.deleteContacts(deletingContacts);
             }
         });
         dialogBuilder.setNegativeButton(getString(R.string.confirm_dialog_negative_answer), new DialogInterface.OnClickListener() {
