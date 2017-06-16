@@ -8,9 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
+        android:text="Full name"
         android:textColor="@android:color/black"
         android:textAlignment="viewStart"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Phone number"
+        android:textSize="12sp"
+        android:textColor="@android:color/tertiary_text_light"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textAlignment="viewStart" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="12sp"
+        android:textColor="@android:color/tertiary_text_light"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textAlignment="viewStart" />
 
 </LinearLayout>
