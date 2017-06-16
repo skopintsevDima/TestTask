@@ -11,17 +11,25 @@
     </item>
 
     <item
-        android:id="@+id/mi_sort"
+        android:id="@+id/mi_delete"
         android:orderInCategory="2"
-        android:icon="@drawable/ic_sort_black_24dp"
+        android:icon="@drawable/ic_delete_enabled_mode"
+        app:showAsAction="ifRoom"
+        android:title="@string/delete">
+    </item>
+
+    <item
+        android:id="@+id/mi_sort"
+        android:orderInCategory="3"
+        android:icon="@drawable/ic_sort"
         app:showAsAction="ifRoom"
         android:title="@string/sort">
     </item>
 
     <item
         android:id="@+id/mi_logout"
-        android:orderInCategory="3"
-        android:icon="@drawable/ic_logout_black_24dp"
+        android:orderInCategory="4"
+        android:icon="@drawable/ic_logout"
         app:showAsAction="ifRoom"
         android:title="@string/logout">
     </item>

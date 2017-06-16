@@ -13,4 +13,5 @@ public interface ContactsView {
     void showMessage(String message);
     void onContactsLoaded(List<Contact> contacts);
     void onContactAdded(Contact contact);
+    void onContactsDeleted();
 }

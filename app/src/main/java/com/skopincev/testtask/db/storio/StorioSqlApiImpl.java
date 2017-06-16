@@ -2,10 +2,12 @@ package com.skopincev.testtask.db.storio;
 
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
+import com.pushtorefresh.storio.sqlite.operations.delete.DeleteResolver;
 import com.pushtorefresh.storio.sqlite.queries.Query;
 import com.pushtorefresh.storio.sqlite.queries.RawQuery;
 import com.skopincev.testtask.db.DBContract;
 import com.skopincev.testtask.db.DBHelper;
+import com.skopincev.testtask.db.dao.ContactDeleteResolver;
 import com.skopincev.testtask.db.dao.ContactGetResolver;
 import com.skopincev.testtask.db.dao.ContactPutResolver;
 import com.skopincev.testtask.db.entity.Contact;
@@ -24,6 +26,7 @@ public class StorioSqlApiImpl implements StorioSqlApi {
 
     private final ContactPutResolver contactPutResolver;
     private final ContactGetResolver contactGetResolver;
+    private final ContactDeleteResolver contactDeleteResolver;
 
     @Inject
     public StorioSqlApiImpl(DBHelper dbHelper) {
@@ -33,6 +36,7 @@ public class StorioSqlApiImpl implements StorioSqlApi {
 
         contactPutResolver = new ContactPutResolver();
         contactGetResolver = new ContactGetResolver();
+        contactDeleteResolver = new ContactDeleteResolver();
     }
 
     @Override
@@ -52,7 +56,7 @@ public class StorioSqlApiImpl implements StorioSqlApi {
     }
 
     @Override
-    public List<Contact> getContactsByEmail(String email) {
+    public List<Contact> getContactsByOwnerEmail(String email) {
         return storIOSQLite.get()
                 .listOfObjects(Contact.class)
                 .withQuery(
@@ -67,11 +71,33 @@ public class StorioSqlApiImpl implements StorioSqlApi {
     }
 
     @Override
+    public Contact getContactByEmail(String email) {
+        return storIOSQLite.get()
+                .object(Contact.class)
+                .withQuery(Query.builder()
+                        .table(DBContract.ContactContract.TABLE_NAME)
+                        .where(DBContract.ContactContract.KEY_EMAIL + " = " + "\"" + email + "\"")
+                        .build())
+                .withGetResolver(contactGetResolver)
+                .prepare()
+                .executeAsBlocking();
+    }
+
+    @Override
     public void clearDB() {
         storIOSQLite.executeSQL()
                 .withQuery(RawQuery.builder()
                         .query("DELETE FROM " + DBContract.ContactContract.TABLE_NAME)
                         .build())
+                .prepare()
+                .executeAsBlocking();
+    }
+
+    @Override
+    public void remove(Contact contact) {
+        storIOSQLite.delete()
+                .object(contact)
+                .withDeleteResolver(contactDeleteResolver)
                 .prepare()
                 .executeAsBlocking();
     }

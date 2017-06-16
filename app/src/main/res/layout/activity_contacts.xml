@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:backgroundTint="@android:color/white"
+    android:background="@color/contactsBackground"
+    android:backgroundTint="@color/contactsBackground"
     tools:context="com.skopincev.testtask.ui.ContactsActivity">
 
     <android.support.v7.widget.RecyclerView

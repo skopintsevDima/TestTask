@@ -43,7 +43,7 @@ dependencies {
     annotationProcessor 'com.pushtorefresh.storio:sqlite-annotations-processor:1.12.3'
     compile 'com.pushtorefresh.storio:content-resolver-annotations:1.12.3'
     annotationProcessor 'com.pushtorefresh.storio:content-resolver-annotations-processor:1.12.3'
-    // TODO: remove
+    // TODO: removeItems
     // RxJava+RxAndroid
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:1.2.3'

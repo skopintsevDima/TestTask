@@ -13,7 +13,11 @@ public interface StorioSqlApi {
 
     void putContacts(List<Contact> contacts);
 
-    List<Contact> getContactsByEmail(String email);
+    List<Contact> getContactsByOwnerEmail(String email);
+
+    Contact getContactByEmail(String email);
 
     void clearDB();
+
+    void remove(Contact contact);
 }

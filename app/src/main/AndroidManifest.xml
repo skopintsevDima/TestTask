@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ContactsActivity"></activity>
+        <activity android:name=".ui.ContactsActivity"
+            android:label="@string/lbl_activity_contacts"/>
     </application>
 
 </manifest>
