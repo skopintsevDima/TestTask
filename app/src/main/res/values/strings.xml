@@ -20,4 +20,5 @@
     <string name="dialog_add_positive_answer">OK</string>
     <string name="dialog_add_neutral_answer">Cancel</string>
     <string name="mi_help">Help</string>
+    <string name="message_connection_failed">User connection failed!</string>
 </resources>

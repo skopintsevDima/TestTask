@@ -27,6 +27,7 @@ import javax.inject.Inject;
 public class MainPresenterImpl implements MainPresenter {
     private static final String TAG = MainPresenterImpl.class.getSimpleName();
     private static final String KEY_USER_TOKEN = "KEY_USER_TOKEN";
+    private static final String DEFAULT_TOKEN = "DEFAULT_TOKEN";
 
     private MainView view;
 
@@ -56,34 +57,30 @@ public class MainPresenterImpl implements MainPresenter {
         view.startValidationActivity(signInIntent);
     }
 
-    //TODO: sign out not working
     @Override
     public void silentSignIn() {
-        Thread silentSignInThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ConnectionResult result = googleApiClient.blockingConnect();
-                    if (result.isSuccess()) {
-                        final GoogleSignInResult googleSignInResult =
-                                Auth.GoogleSignInApi.silentSignIn(googleApiClient).await();
-                        ((MainActivity) view).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (googleSignInResult.isSuccess()) {
-                                    handleSignInResult(googleSignInResult);
-                                } else {
-                                    view.initUI();
-                                }
+        if (getToken().equals(DEFAULT_TOKEN)){
+            view.initUI();
+        } else {
+            Thread silentSignInThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final GoogleSignInResult googleSignInResult =
+                            Auth.GoogleSignInApi.silentSignIn(googleApiClient).await();
+                    ((MainActivity)view).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (googleSignInResult.isSuccess()) {
+                                handleSignInResult(googleSignInResult);
+                            } else {
+                                view.initUI();
                             }
-                        });
-                    }
-                } finally {
-                    googleApiClient.disconnect();
+                        }
+                    });
                 }
-            }
-        });
-        silentSignInThread.start();
+            });
+            silentSignInThread.start();
+        }
     }
 
     @Override
@@ -100,38 +97,27 @@ public class MainPresenterImpl implements MainPresenter {
 
     @NonNull
     private String getToken(){
-        return mainPref.getString(KEY_USER_TOKEN, "");
+        return mainPref.getString(KEY_USER_TOKEN, DEFAULT_TOKEN);
     }
 
     private void handleSignInResult(final GoogleSignInResult result) {
         if (result.isSuccess()) {
-            googleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                @Override
-                public void onConnected(@Nullable Bundle bundle) {
-                    GoogleSignInAccount account = result.getSignInAccount();
-                    if (account != null) {
-                        String userToken = account.getIdToken();
-                        String userEmail = account.getEmail();
-                        Log.d(TAG, "userEmail = " + userEmail);
-                        if (getToken().equals(userToken)) {
-                            view.openContacts(userEmail);
-                        }
-                        else {
-                            putToken(userToken);
-                            view.openContacts(userEmail);
-                        }
-                    }
-                    else {
-                        Log.d(TAG, "Account is null!");
-                    }
+            GoogleSignInAccount account = result.getSignInAccount();
+            if (account != null) {
+                String userToken = account.getIdToken();
+                String userEmail = account.getEmail();
+                Log.d(TAG, "userEmail = " + userEmail);
+                if (getToken().equals(userToken)) {
+                    view.openContacts(userEmail);
                 }
-
-                @Override
-                public void onConnectionSuspended(int i) {
-
+                else {
+                    putToken(userToken);
+                    view.openContacts(userEmail);
                 }
-            });
-            googleApiClient.connect();
+            }
+            else {
+                Log.d(TAG, "Account is null!");
+            }
         }
     }
 

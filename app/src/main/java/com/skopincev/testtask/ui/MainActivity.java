@@ -3,11 +3,13 @@ package com.skopincev.testtask.ui;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.skopincev.testtask.R;
 import com.skopincev.testtask.dagger.base.BaseActivity;
@@ -29,25 +31,41 @@ public class MainActivity extends BaseActivity implements
     private static final String KEY_USER_EMAIL = "KEY_USER_EMAIL";
 
     @Inject
+    GoogleApiClient googleApiClient;
+    @Inject
     MainPresenter presenter;
 
     @BindView(R.id.btn_sign_in)
     SignInButton btn_sign_in;
-    private static boolean userLogout = false;
-
-    public static void setUserLogout(boolean userLogout) {
-        MainActivity.userLogout = userLogout;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.attach(this);
-        if (!userLogout) {
-            presenter.silentSignIn();
-        } else {
-            initUI();
-        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        googleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(@Nullable Bundle bundle) {
+                presenter.silentSignIn();
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+
+            }
+        });
+        googleApiClient.registerConnectionFailedListener(new OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                initUI();
+                showMessage(getString(R.string.message_connection_failed));
+            }
+        });
+        googleApiClient.connect();
     }
 
     @Override
@@ -90,7 +108,6 @@ public class MainActivity extends BaseActivity implements
         intent.putExtra(KEY_USER_EMAIL, userEmail);
         startActivity(intent);
         finish();
-        userLogout = false;
     }
 
     @Override
