@@ -88,7 +88,12 @@ public class ContactsActivity extends BaseActivity
             public void onClick(DialogInterface dialog, int which) {
                 List<Contact> deletingContacts = new ArrayList<>();
                 for (Integer position: adapter.getCheckedItems()){
-                    deletingContacts.add(contacts.get(position));
+                    if (position >= 0 && position <= contacts.size() - 1) {
+                        deletingContacts.add(contacts.get(position));
+                    }
+                    else {
+                        showMessage("Position: " + position + " is out of bound");
+                    }
                 }
                 presenter.deleteContacts(deletingContacts);
             }
@@ -100,7 +105,18 @@ public class ContactsActivity extends BaseActivity
                 adapter.onContactsDeletingDismissed();
             }
         });
-        return dialogBuilder.create();
+        Dialog confirmation = dialogBuilder.create();
+        confirmation.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button negativeButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                negativeButton.setTextColor(getResources().getColor(R.color.black));
+
+                Button positiveButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setTextColor(getResources().getColor(R.color.black));
+            }
+        });
+        return confirmation;
     }
 
     private Dialog createAddContactDialog(){
@@ -257,7 +273,9 @@ public class ContactsActivity extends BaseActivity
                 break;
             }
             case R.id.mi_sort:{
-                adapter.sortByAlphabet();
+                if (!deleteMode) {
+                    adapter.sortByAlphabet();
+                }
                 break;
             }
             case R.id.mi_about:{

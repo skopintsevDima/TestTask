@@ -62,7 +62,6 @@ public class ContactsPresenterImpl implements ContactsPresenter {
                     public void onResult(Status status) {
                         if (status.isSuccess()){
                             deleteToken();
-                            sqlApi.clearDB();
                         }
                     }
                 });

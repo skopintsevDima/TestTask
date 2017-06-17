@@ -24,7 +24,9 @@
         <activity
             android:name=".ui.ContactsActivity"
             android:label="@string/lbl_activity_contacts" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/lbl_activity_about" />
     </application>
 
 </manifest>

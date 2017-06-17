@@ -54,7 +54,7 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
             tv_email.setText(email);
         }
 
-        public void setCheckedState(boolean checked){
+        public void setCheckerState(boolean checked){
             if (checked){
                 cb_checked.setChecked(true);
 
@@ -72,10 +72,10 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
             if (deleteMode){
                 if (cb_checked.isChecked()){
                     checkedItems.remove(this);
-                    setCheckedState(false);
+                    setCheckerState(false);
                 } else {
                     checkedItems.add(this);
-                    setCheckedState(true);
+                    setCheckerState(true);
                 }
             }
         }
@@ -116,6 +116,7 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
     public void onDeleteModeActivated(){
         deleteMode = true;
         for (ContactViewHolder holder: holders){
+            holder.setCheckerState(false);
             holder.setCheckerVisibility(View.VISIBLE);
         }
     }
@@ -131,7 +132,7 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
     public void onContactsDeletingDismissed(){
         deleteMode = false;
         for (ContactViewHolder holder: holders){
-            holder.setCheckedState(false);
+            holder.setCheckerState(false);
             holder.setCheckerVisibility(View.INVISIBLE);
         }
         checkedItems = new ArrayList<>();
@@ -145,6 +146,7 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
     public void removeItems(List<Integer> positions){
         List<Contact> removeItems = new ArrayList<>();
         for (Integer position: positions){
+            if (position >= 0 && position <= items.size() - 1)
             removeItems.add(items.get(position));
         }
         items.removeAll(removeItems);

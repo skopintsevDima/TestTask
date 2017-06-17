@@ -24,7 +24,7 @@
     <string name="main_greetings">Hello, this is simple test app, so a design also is very simple…)))</string>
     <string name="add_dialog_phone_not_valid">Phone number not valid!</string>
     <string name="add_dialog_email_not_valid">Email not valid!</string>
-    <string name="about"> User\'s Google+ email using like a key for contacts list.\n
+    <string name="about"> User\'s Google+ email using as a key for contacts list.\n
         You have able to add, delete, sort contacts and save contacts at local DB.\n
         Sorting by alphabet.\n
         \n
@@ -36,5 +36,6 @@
     </string>
     <string name="about_author">Author: Dmitriy Skopintsev</string>
     <string name="about_email">skopintsev2015@gmail.com</string>
+    <string name="lbl_activity_about">About</string>
 
 </resources>
