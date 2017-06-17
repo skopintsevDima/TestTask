@@ -13,6 +13,8 @@ import com.skopincev.testtask.R;
 import com.skopincev.testtask.db.entity.Contact;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -93,6 +95,24 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
         return positions;
     }
 
+    public void sortByAlphabet(){
+        Collections.sort(items, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact contact1, Contact contact2) {
+                String fullName1 = contact1.getFirstName() + " " + contact1.getLastName();
+                String fullName2 = contact2.getFirstName() + " " + contact2.getLastName();
+                return fullName1.compareTo(fullName2);
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public ContactsRecyclerAdapter(Context context, List<Contact> items)
+    {
+        this.inflater = LayoutInflater.from(context);
+        this.items = items;
+    }
+
     public void onDeleteModeActivated(){
         deleteMode = true;
         for (ContactViewHolder holder: holders){
@@ -115,12 +135,6 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
             holder.setCheckerVisibility(View.INVISIBLE);
         }
         checkedItems = new ArrayList<>();
-    }
-
-    public ContactsRecyclerAdapter(Context context, List<Contact> items)
-    {
-        this.inflater = LayoutInflater.from(context);
-        this.items = items;
     }
 
     public void add(Contact contact){

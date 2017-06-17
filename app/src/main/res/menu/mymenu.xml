@@ -6,32 +6,39 @@
         android:id="@+id/mi_add"
         android:orderInCategory="1"
         android:icon="@drawable/ic_add_black_24dp"
-        app:showAsAction="ifRoom"
-        android:title="@string/add">
+        app:showAsAction="always"
+        android:title="@string/mi_add">
     </item>
 
     <item
         android:id="@+id/mi_delete"
         android:orderInCategory="2"
         android:icon="@drawable/ic_delete_enabled_mode"
-        app:showAsAction="ifRoom"
-        android:title="@string/delete">
+        app:showAsAction="always"
+        android:title="@string/mi_delete">
     </item>
 
     <item
         android:id="@+id/mi_sort"
         android:orderInCategory="3"
         android:icon="@drawable/ic_sort"
+        app:showAsAction="always"
+        android:title="@string/mi_sort">
+    </item>
+
+    <item
+        android:id="@+id/mi_help"
+        android:orderInCategory="4"
         app:showAsAction="ifRoom"
-        android:title="@string/sort">
+        android:title="@string/mi_help">
     </item>
 
     <item
         android:id="@+id/mi_logout"
-        android:orderInCategory="4"
+        android:orderInCategory="5"
         android:icon="@drawable/ic_logout"
         app:showAsAction="ifRoom"
-        android:title="@string/logout">
+        android:title="@string/mi_logout">
     </item>
 
 </menu>

@@ -2,12 +2,12 @@
     <string name="app_name">Test task</string>
     <string name="sign_in_failed_message">Sign in failed!</string>
     <string name="btn_sign_out_text">Выйти</string>
-    <string name="logout">Logout</string>
-    <string name="sort">Sort</string>
+    <string name="mi_logout">Logout</string>
+    <string name="mi_sort">Sort</string>
     <string name="server_client_id">237811025554-po0qdd2gob5v9vnm444p612nkunppf1k.apps.googleusercontent.com</string>
-    <string name="add">Add</string>
+    <string name="mi_add">Add</string>
     <string name="lbl_activity_contacts">Contacts</string>
-    <string name="delete">Delete</string>
+    <string name="mi_delete">Delete</string>
     <string name="confirm_dialog_title">Are you sure?</string>
     <string name="confirm_dialog_message">Delete this contacts?</string>
     <string name="confirm_dialog_positive_answer">Yes</string>
@@ -19,4 +19,5 @@
     <string name="dialog_enter_the_information_please">Enter the information, please</string>
     <string name="dialog_add_positive_answer">OK</string>
     <string name="dialog_add_neutral_answer">Cancel</string>
+    <string name="mi_help">Help</string>
 </resources>

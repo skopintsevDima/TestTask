@@ -220,7 +220,7 @@ public class ContactsActivity extends BaseActivity
                 break;
             }
             case R.id.mi_sort:{
-
+                adapter.sortByAlphabet();
                 break;
             }
         }
@@ -239,6 +239,7 @@ public class ContactsActivity extends BaseActivity
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+        MainActivity.setUserLogout(true);
     }
 
     @Override

@@ -82,13 +82,13 @@ public class ContactsPresenterImpl implements ContactsPresenter {
                     });
         }
         else {
-            view.showMessage("User isn't connected!");
+            view.showMessage("Sign out failed. Try again later!");
         }
     }
 
     @Override
     public void loadContacts(String email) {
-        //TODO: removeItems mock
+        //TODO: remove mock
 //        sqlApi.clearDB();
 //        List<Contact> mockContacts = new ArrayList<>();
 //        Contact contact1 = new Contact(email, "Dima", "Skopintsev", "skopincev2015@ukr.net", "+380689840854");

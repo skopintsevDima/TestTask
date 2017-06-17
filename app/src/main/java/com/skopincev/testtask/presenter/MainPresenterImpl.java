@@ -3,6 +3,7 @@ package com.skopincev.testtask.presenter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +56,7 @@ public class MainPresenterImpl implements MainPresenter {
         view.startValidationActivity(signInIntent);
     }
 
+    //TODO: sign out not working
     @Override
     public void silentSignIn() {
         Thread silentSignInThread = new Thread(new Runnable() {
@@ -101,26 +103,36 @@ public class MainPresenterImpl implements MainPresenter {
         return mainPref.getString(KEY_USER_TOKEN, "");
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(final GoogleSignInResult result) {
         if (result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            if (account != null) {
-                String userToken = account.getIdToken();
-                String userEmail = account.getEmail();
-                Log.d(TAG, "userEmail = " + userEmail);
-                if (getToken().equals(userToken)) {
-                    view.openContacts(userEmail);
+            googleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(@Nullable Bundle bundle) {
+                    GoogleSignInAccount account = result.getSignInAccount();
+                    if (account != null) {
+                        String userToken = account.getIdToken();
+                        String userEmail = account.getEmail();
+                        Log.d(TAG, "userEmail = " + userEmail);
+                        if (getToken().equals(userToken)) {
+                            view.openContacts(userEmail);
+                        }
+                        else {
+                            putToken(userToken);
+                            view.openContacts(userEmail);
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "Account is null!");
+                    }
                 }
-                else {
-                    putToken(userToken);
-                    view.openContacts(userEmail);
+
+                @Override
+                public void onConnectionSuspended(int i) {
+
                 }
-            }
-            else {
-                Log.d(TAG, "Account is null!");
-            }
-        } else {
-            Log.d(TAG, "Sign in failed!");
+            });
+            googleApiClient.connect();
         }
     }
+
 }

@@ -3,13 +3,11 @@ package com.skopincev.testtask.ui;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.skopincev.testtask.R;
 import com.skopincev.testtask.dagger.base.BaseActivity;
@@ -24,25 +22,32 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements
-        MainView, OnConnectionFailedListener {
+        MainView {
 
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String KEY_USER_EMAIL = "KEY_USER_EMAIL";
 
     @Inject
-    GoogleApiClient googleApiClient;
-    @Inject
     MainPresenter presenter;
 
     @BindView(R.id.btn_sign_in)
     SignInButton btn_sign_in;
+    private static boolean userLogout = false;
+
+    public static void setUserLogout(boolean userLogout) {
+        MainActivity.userLogout = userLogout;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.attach(this);
-        presenter.silentSignIn();
+        if (!userLogout) {
+            presenter.silentSignIn();
+        } else {
+            initUI();
+        }
     }
 
     @Override
@@ -66,23 +71,11 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
-            googleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                @Override
-                public void onConnected(@Nullable Bundle bundle) {
-                    presenter.onSignInResult(data);
-                }
-
-                @Override
-                public void onConnectionSuspended(int i) {
-
-                }
-            });
-            googleApiClient.registerConnectionFailedListener(this);
-            googleApiClient.connect();
+            presenter.onSignInResult(data);
         }
     }
 
@@ -97,6 +90,7 @@ public class MainActivity extends BaseActivity implements
         intent.putExtra(KEY_USER_EMAIL, userEmail);
         startActivity(intent);
         finish();
+        userLogout = false;
     }
 
     @Override
@@ -109,10 +103,5 @@ public class MainActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         presenter.detach();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        showMessage(connectionResult.getErrorMessage());
     }
 }
