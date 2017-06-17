@@ -5,8 +5,6 @@ import com.skopincev.testtask.view.ContactsView;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-
 /**
  * Created by skopi on 13.06.2017.
  */
@@ -18,4 +16,6 @@ public interface ContactsPresenter {
     void loadContacts(String email);
     void addContact(Contact contact);
     void deleteContacts(List<Contact> contacts);
+    boolean isEmailValid(String email);
+    boolean isPhoneNumberValid(String phoneNumber);
 }

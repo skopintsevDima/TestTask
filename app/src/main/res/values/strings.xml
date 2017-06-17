@@ -21,4 +21,7 @@
     <string name="dialog_add_neutral_answer">Cancel</string>
     <string name="mi_help">Help</string>
     <string name="message_connection_failed">User connection failed!</string>
+    <string name="main_greetings">Hello, this is simple test app, so a design also is very simple…)))</string>
+    <string name="add_dialog_phone_not_valid">Phone number not valid!</string>
+    <string name="add_dialog_email_not_valid">Email not valid!</string>
 </resources>

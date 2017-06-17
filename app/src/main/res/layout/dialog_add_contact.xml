@@ -20,7 +20,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/dialog_first_name"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black" />
 
     <EditText
         android:id="@+id/et_last_name"
@@ -31,7 +31,6 @@
         android:hint="@string/dialog_last_name"
         android:textColor="@android:color/black"/>
 
-    <!-- TODO: add validation-->
     <EditText
         android:id="@+id/et_phone_number"
         android:layout_width="match_parent"

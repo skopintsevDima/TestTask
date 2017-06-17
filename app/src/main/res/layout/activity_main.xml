@@ -7,13 +7,21 @@
     android:backgroundTint="@color/mainBackground"
     tools:context="com.skopincev.testtask.ui.MainActivity">
 
+    <TextView
+        android:id="@+id/tv_greetings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_greetings"
+        android:textColor="@color/yellow"
+        android:textSize="36sp"
+        android:textStyle="italic"
+        android:textAlignment="center"/>
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
     </com.google.android.gms.common.SignInButton>
-
-    <!-- TODO: refactor the design -->
 
 </RelativeLayout>

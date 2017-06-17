@@ -9,11 +9,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skopincev.testtask.R;
@@ -111,19 +116,46 @@ public class ContactsActivity extends BaseActivity
 
         final EditText et_email = (EditText) view.findViewById(R.id.et_email);
 
-        final ColorStateList colorStateList = et_first_name.getHintTextColors();
+        final ColorStateList hintColorStateList = et_first_name.getHintTextColors();
+        final ColorStateList textColorStateList = et_first_name.getTextColors();
         View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus){
-                    ((EditText)view).setHintTextColor(colorStateList);
+                    ((EditText)view).setHintTextColor(hintColorStateList);
+                    ((EditText)view).setTextColor(textColorStateList);
                 }
             }
         };
         et_first_name.setOnFocusChangeListener(onFocusChangeListener);
         et_last_name.setOnFocusChangeListener(onFocusChangeListener);
+
         et_phone_number.setOnFocusChangeListener(onFocusChangeListener);
+        et_phone_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_phone_number.setTextColor(textColorStateList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
         et_email.setOnFocusChangeListener(onFocusChangeListener);
+        et_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_email.setTextColor(textColorStateList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setView(view);
@@ -158,9 +190,17 @@ public class ContactsActivity extends BaseActivity
                         if (et_phone_number.getText().length() == 0) {
                             et_phone_number.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
                             return;
+                        } else if (!presenter.isPhoneNumberValid(et_phone_number.getText().toString())) {
+                            et_phone_number.setTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            showMessage(getString(R.string.add_dialog_phone_not_valid));
+                            return;
                         }
                         if (et_email.getText().length() == 0) {
                             et_email.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        } else if (!presenter.isEmailValid(et_email.getText().toString())) {
+                            et_email.setTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            showMessage(getString(R.string.add_dialog_email_not_valid));
                             return;
                         }
                         Contact newContact = new Contact(userEmail,
@@ -221,6 +261,10 @@ public class ContactsActivity extends BaseActivity
             }
             case R.id.mi_sort:{
                 adapter.sortByAlphabet();
+                break;
+            }
+            case R.id.mi_help:{
+                //TODO: to handle
                 break;
             }
         }
