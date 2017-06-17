@@ -223,6 +223,7 @@ public class ContactsActivity extends BaseActivity
                                 et_phone_number.getText().toString());
                         presenter.addContact(newContact);
                         dialog.dismiss();
+                        dialog.cancel();
                     }
                 });
             }

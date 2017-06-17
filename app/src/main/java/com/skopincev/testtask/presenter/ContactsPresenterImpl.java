@@ -110,7 +110,7 @@ public class ContactsPresenterImpl implements ContactsPresenter {
     @Override
     public void addContact(Contact contact) {
         sqlApi.put(contact);
-        view.onContactAdded(sqlApi.getContactByEmail(contact.getEmail()));
+        view.onContactAdded(contact);
     }
 
     @Override

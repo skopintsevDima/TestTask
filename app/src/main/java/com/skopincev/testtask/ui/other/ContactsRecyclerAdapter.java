@@ -140,7 +140,7 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
 
     public void add(Contact contact){
         items.add(contact);
-        notifyItemInserted(items.size() - 1);
+        notifyDataSetChanged();
     }
 
     public void removeItems(List<Integer> positions){
