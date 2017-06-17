@@ -19,9 +19,22 @@
     <string name="dialog_enter_the_information_please">Enter the information, please</string>
     <string name="dialog_add_positive_answer">OK</string>
     <string name="dialog_add_neutral_answer">Cancel</string>
-    <string name="mi_help">Help</string>
+    <string name="mi_about">About</string>
     <string name="message_connection_failed">User connection failed!</string>
     <string name="main_greetings">Hello, this is simple test app, so a design also is very simple…)))</string>
     <string name="add_dialog_phone_not_valid">Phone number not valid!</string>
     <string name="add_dialog_email_not_valid">Email not valid!</string>
+    <string name="about"> User\'s Google+ email using like a key for contacts list.\n
+        You have able to add, delete, sort contacts and save contacts at local DB.\n
+        Sorting by alphabet.\n
+        \n
+        Used architecture pattern: MVP.\n
+        DI: Dagger2.\n
+        DB: SQLite.\n
+        DAO: StorIOSqlite.\n
+        Design: RecyclerView.
+    </string>
+    <string name="about_author">Author: Dmitriy Skopintsev</string>
+    <string name="about_email">skopintsev2015@gmail.com</string>
+
 </resources>

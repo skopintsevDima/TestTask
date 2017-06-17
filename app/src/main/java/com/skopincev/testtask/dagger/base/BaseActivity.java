@@ -40,7 +40,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    //TODO: WTF?!?!
     /** Restores presenter while configuration change. */
     private ActivityComponent restoreInjector() {
         Object o = getLastCustomNonConfigurationInstance();

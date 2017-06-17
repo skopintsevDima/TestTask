@@ -27,18 +27,18 @@
     </item>
 
     <item
-        android:id="@+id/mi_help"
-        android:orderInCategory="4"
-        app:showAsAction="ifRoom"
-        android:title="@string/mi_help">
-    </item>
-
-    <item
         android:id="@+id/mi_logout"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         android:icon="@drawable/ic_logout"
         app:showAsAction="ifRoom"
         android:title="@string/mi_logout">
+    </item>
+
+    <item
+        android:id="@+id/mi_about"
+        android:orderInCategory="5"
+        app:showAsAction="ifRoom"
+        android:title="@string/mi_about">
     </item>
 
 </menu>

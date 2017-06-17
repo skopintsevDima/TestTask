@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainBackground"
-    android:backgroundTint="@color/mainBackground"
+    android:background="@color/background"
+    android:backgroundTint="@color/background"
     tools:context="com.skopincev.testtask.ui.MainActivity">
 
     <TextView

@@ -11,16 +11,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.skopincev.testtask.AboutActivity;
 import com.skopincev.testtask.R;
 import com.skopincev.testtask.dagger.base.BaseActivity;
 import com.skopincev.testtask.dagger.component.ActivityComponent;
@@ -31,7 +29,6 @@ import com.skopincev.testtask.ui.other.WrapContentLinearLayoutManager;
 import com.skopincev.testtask.view.ContactsView;
 
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -263,8 +260,8 @@ public class ContactsActivity extends BaseActivity
                 adapter.sortByAlphabet();
                 break;
             }
-            case R.id.mi_help:{
-                //TODO: to handle
+            case R.id.mi_about:{
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
             }
         }

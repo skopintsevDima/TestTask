@@ -44,6 +44,7 @@ dependencies {
     compile 'com.pushtorefresh.storio:content-resolver-annotations:1.12.3'
     annotationProcessor 'com.pushtorefresh.storio:content-resolver-annotations-processor:1.12.3'
 
+
     testCompile 'junit:junit:4.12'
 }
 
