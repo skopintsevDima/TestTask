@@ -3,6 +3,7 @@ package com.skopincev.testtask.ui;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.skopincev.testtask.R;
@@ -22,6 +26,7 @@ import com.skopincev.testtask.ui.other.WrapContentLinearLayoutManager;
 import com.skopincev.testtask.view.ContactsView;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,6 +39,7 @@ public class ContactsActivity extends BaseActivity
 
     private static final String KEY_USER_EMAIL = "KEY_USER_EMAIL";
     private static final int DELETING_CONFIRMATION = 1;
+    private static final int ADD_CONTACT = 2;
 
     @Inject
     ContactsPresenter presenter;
@@ -75,7 +81,7 @@ public class ContactsActivity extends BaseActivity
         dialogBuilder.setTitle(R.string.confirm_dialog_title);
         dialogBuilder.setMessage(R.string.confirm_dialog_message);
         dialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-        dialogBuilder.setPositiveButton(getString(R.string.confirm_dialog_positive_answer), new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(R.string.confirm_dialog_positive_answer, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 List<Contact> deletingContacts = new ArrayList<>();
@@ -85,7 +91,7 @@ public class ContactsActivity extends BaseActivity
                 presenter.deleteContacts(deletingContacts);
             }
         });
-        dialogBuilder.setNegativeButton(getString(R.string.confirm_dialog_negative_answer), new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(R.string.confirm_dialog_negative_answer, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -95,11 +101,90 @@ public class ContactsActivity extends BaseActivity
         return dialogBuilder.create();
     }
 
+    private Dialog createAddContactDialog(){
+        View view = getLayoutInflater().inflate(R.layout.dialog_add_contact, null);
+        final EditText et_first_name = (EditText) view.findViewById(R.id.et_first_name);
+
+        final EditText et_last_name = (EditText) view.findViewById(R.id.et_last_name);
+
+        final EditText et_phone_number = (EditText) view.findViewById(R.id.et_phone_number);
+
+        final EditText et_email = (EditText) view.findViewById(R.id.et_email);
+
+        final ColorStateList colorStateList = et_first_name.getHintTextColors();
+        View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    ((EditText)view).setHintTextColor(colorStateList);
+                }
+            }
+        };
+        et_first_name.setOnFocusChangeListener(onFocusChangeListener);
+        et_last_name.setOnFocusChangeListener(onFocusChangeListener);
+        et_phone_number.setOnFocusChangeListener(onFocusChangeListener);
+        et_email.setOnFocusChangeListener(onFocusChangeListener);
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(view);
+        dialogBuilder.setPositiveButton(R.string.dialog_add_positive_answer, null);
+        dialogBuilder.setNeutralButton(getString(R.string.dialog_add_neutral_answer), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        Dialog dialog = dialogBuilder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button neutralButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEUTRAL);
+                neutralButton.setTextColor(getResources().getColor(R.color.black));
+
+                Button positiveButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setTextColor(getResources().getColor(R.color.black));
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (et_first_name.getText().length() == 0) {
+                            et_first_name.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        }
+                        if (et_last_name.getText().length() == 0) {
+                            et_last_name.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        }
+                        if (et_phone_number.getText().length() == 0) {
+                            et_phone_number.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        }
+                        if (et_email.getText().length() == 0) {
+                            et_email.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        }
+                        Contact newContact = new Contact(userEmail,
+                                et_first_name.getText().toString(),
+                                et_last_name.getText().toString(),
+                                et_email.getText().toString(),
+                                et_phone_number.getText().toString());
+                        presenter.addContact(newContact);
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        return dialog;
+    }
+
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id){
             case DELETING_CONFIRMATION:{
                 return createDeletingConfirmation();
+            }
+            case ADD_CONTACT:{
+                return createAddContactDialog();
             }
         }
         return super.onCreateDialog(id);
@@ -114,7 +199,7 @@ public class ContactsActivity extends BaseActivity
             }
             case R.id.mi_add:{
                 if (!deleteMode) {
-                    presenter.addContact(userEmail);
+                    showDialog(ADD_CONTACT);
                 }
                 break;
             }
@@ -132,6 +217,10 @@ public class ContactsActivity extends BaseActivity
                     adapter.onDeleteModeActivated();
                     item.setIcon(R.drawable.ic_delete_disabled_mode);
                 }
+                break;
+            }
+            case R.id.mi_sort:{
+
                 break;
             }
         }

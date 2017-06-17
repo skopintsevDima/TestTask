@@ -134,9 +134,7 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
             removeItems.add(items.get(position));
         }
         items.removeAll(removeItems);
-        for (Integer position: positions){
-            notifyItemRemoved(position);
-        }
+        notifyDataSetChanged();
     }
 
     @Override

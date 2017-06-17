@@ -12,4 +12,11 @@
     <string name="confirm_dialog_message">Delete this contacts?</string>
     <string name="confirm_dialog_positive_answer">Yes</string>
     <string name="confirm_dialog_negative_answer">No</string>
+    <string name="dialog_first_name">First name</string>
+    <string name="dialog_last_name">Last name</string>
+    <string name="dialog_phone_number">Phone number</string>
+    <string name="dialog_email">Email</string>
+    <string name="dialog_enter_the_information_please">Enter the information, please</string>
+    <string name="dialog_add_positive_answer">OK</string>
+    <string name="dialog_add_neutral_answer">Cancel</string>
 </resources>

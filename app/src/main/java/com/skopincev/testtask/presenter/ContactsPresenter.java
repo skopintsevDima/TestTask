@@ -16,6 +16,6 @@ public interface ContactsPresenter {
     void detach();
     void signOut();
     void loadContacts(String email);
-    void addContact(String email);
+    void addContact(Contact contact);
     void deleteContacts(List<Contact> contacts);
 }

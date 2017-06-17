@@ -103,7 +103,6 @@ public class MainPresenterImpl implements MainPresenter {
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            googleApiClient.connect();
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
                 String userToken = account.getIdToken();

@@ -60,6 +60,7 @@ public class ContactsPresenterImpl implements ContactsPresenter {
                     public void onResult(Status status) {
                         if (status.isSuccess()){
                             deleteToken();
+                            sqlApi.clearDB();
                         }
                     }
                 });
@@ -93,9 +94,11 @@ public class ContactsPresenterImpl implements ContactsPresenter {
 //        Contact contact1 = new Contact(email, "Dima", "Skopintsev", "skopincev2015@ukr.net", "+380689840854");
 //        Contact contact2 = new Contact(email, "Ruslan", "Buriak", "buriak2015@ukr.net", "+380689840855");
 //        Contact contact3 = new Contact(email, "Vasya", "Dikiy", "dikiy2015@ukr.net", "+380689840856");
+//        Contact contact4 = new Contact(email, "Mariya", "Nuzhna", "nuzhna2015@ukr.net", "+380689840856");
 //        mockContacts.add(contact1);
 //        mockContacts.add(contact2);
 //        mockContacts.add(contact3);
+//        mockContacts.add(contact4);
 //        sqlApi.putContacts(mockContacts);
 
         List<Contact> contacts = new ArrayList<>(sqlApi.getContactsByOwnerEmail(email));
@@ -104,9 +107,7 @@ public class ContactsPresenterImpl implements ContactsPresenter {
     }
 
     @Override
-    public void addContact(String email) {
-        //TODO: remove mock
-        Contact contact = new Contact(email, "Mariya", "Nuzhna", "nuzhna2015@ukr.net", "+380689840856");
+    public void addContact(Contact contact) {
         sqlApi.put(contact);
         view.onContactAdded(sqlApi.getContactByEmail(contact.getEmail()));
     }
