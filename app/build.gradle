@@ -25,7 +25,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.google.android.gms:play-services-auth:9.8.0'
 
     // Support libraries
     compile 'com.android.support:appcompat-v7:25.3.1'

@@ -4,13 +4,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.LoginFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +42,7 @@ import butterknife.ButterKnife;
 public class ContactsActivity extends BaseActivity
         implements ContactsView {
 
+    private static final String TAG = ContactsActivity.class.getSimpleName();
     private static final String KEY_USER_EMAIL = "KEY_USER_EMAIL";
     private static final int DELETING_CONFIRMATION = 1;
     private static final int ADD_CONTACT = 2;
@@ -72,7 +76,12 @@ public class ContactsActivity extends BaseActivity
 
     @Override
     public void inject(ActivityComponent injector) {
-        injector.inject(this);
+        try {
+            injector.inject(this);
+        }
+        catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
     }
 
     @Override

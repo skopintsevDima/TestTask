@@ -70,7 +70,12 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void inject(ActivityComponent injector) {
-        injector.inject(this);
+        try {
+            injector.inject(this);
+        }
+        catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
     }
 
     @Override

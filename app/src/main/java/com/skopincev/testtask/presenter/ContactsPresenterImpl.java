@@ -159,7 +159,7 @@ public class ContactsPresenterImpl implements ContactsPresenter {
 
     @Override
     public boolean isPhoneCodeValid(String phoneCode) {
-        String regExpn = "^[+]?[0-9]{1,5}$";
+        String regExpn = "^[+]?[0-9]{1,13}$";
 
         CharSequence inputStr = phoneCode;
 
