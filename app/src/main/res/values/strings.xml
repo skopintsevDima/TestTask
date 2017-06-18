@@ -26,7 +26,7 @@
     <string name="add_dialog_email_not_valid">Email not valid!</string>
     <string name="about"> User\'s Google+ email using as a key for contacts list.\n
         You have able to add, delete, sort contacts and save contacts at local DB.\n
-        Sorting by alphabet.\n
+        Sorting by alphabet, phone code or substring.\n
         \n
         Used architecture pattern: MVP.\n
         DI: Dagger2.\n

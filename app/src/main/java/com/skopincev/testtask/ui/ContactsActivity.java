@@ -442,7 +442,6 @@ public class ContactsActivity extends BaseActivity
             }
             case R.id.mi_delete:{
                 if (deleteMode){
-                    //TODO: refactor delete mode
                     if (adapter.getCheckedItems().size() > 0) {
                         showDialog(DELETING_CONFIRMATION);
                     } else {
