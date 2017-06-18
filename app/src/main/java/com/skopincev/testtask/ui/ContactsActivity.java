@@ -85,7 +85,6 @@ public class ContactsActivity extends BaseActivity
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setTitle(R.string.confirm_dialog_title);
         dialogBuilder.setMessage(R.string.confirm_dialog_message);
-        dialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
         dialogBuilder.setPositiveButton(R.string.confirm_dialog_positive_answer, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
