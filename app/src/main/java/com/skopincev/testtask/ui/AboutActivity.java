@@ -1,7 +1,9 @@
-package com.skopincev.testtask;
+package com.skopincev.testtask.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.skopincev.testtask.R;
 
 public class AboutActivity extends AppCompatActivity {
 
