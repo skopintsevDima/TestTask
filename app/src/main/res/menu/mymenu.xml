@@ -19,24 +19,36 @@
     </item>
 
     <item
-        android:id="@+id/mi_sort"
+        android:id="@+id/mi_sort_by_alphabet"
         android:orderInCategory="3"
-        android:icon="@drawable/ic_sort"
-        app:showAsAction="always"
-        android:title="@string/mi_sort">
+        app:showAsAction="ifRoom"
+        android:title="@string/mi_sort_by_alphabet">
+    </item>
+
+    <item
+        android:id="@+id/mi_sort_by_substring"
+        android:orderInCategory="4"
+        app:showAsAction="ifRoom"
+        android:title="@string/mi_sort_by_substring">
+    </item>
+
+    <item
+        android:id="@+id/mi_sort_by_phone_code"
+        android:orderInCategory="5"
+        app:showAsAction="ifRoom"
+        android:title="@string/mi_sort_by_phone_code">
     </item>
 
     <item
         android:id="@+id/mi_logout"
-        android:orderInCategory="4"
-        android:icon="@drawable/ic_logout"
+        android:orderInCategory="6"
         app:showAsAction="ifRoom"
         android:title="@string/mi_logout">
     </item>
 
     <item
         android:id="@+id/mi_about"
-        android:orderInCategory="5"
+        android:orderInCategory="7"
         app:showAsAction="ifRoom"
         android:title="@string/mi_about">
     </item>

@@ -8,6 +8,7 @@
     android:backgroundTint="@color/background"
     android:orientation="vertical">
 
+    <!-- TODO: add info to tv-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

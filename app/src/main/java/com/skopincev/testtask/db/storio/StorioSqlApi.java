@@ -15,7 +15,7 @@ public interface StorioSqlApi {
 
     List<Contact> getContactsByOwnerEmail(String email);
 
-    Contact getContactByEmail(String email);
+    Contact getContact(Contact contact);
 
     void clearDB();
 

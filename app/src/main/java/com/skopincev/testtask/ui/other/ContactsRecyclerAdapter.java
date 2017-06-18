@@ -81,6 +81,9 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
         }
     }
 
+    public static String ALPHABET_NORMAL_ORDER = "Normal";
+    public static String ALPHABET_REVERSE_ORDER = "Reverse";
+
     private List<Contact> items;
     private LayoutInflater inflater;
     private List<ContactViewHolder> holders = new ArrayList<>();
@@ -95,13 +98,41 @@ public class ContactsRecyclerAdapter extends RecyclerView.Adapter<ContactsRecycl
         return positions;
     }
 
-    public void sortByAlphabet(){
+    public void sortByAlphabet(final String order){
         Collections.sort(items, new Comparator<Contact>() {
             @Override
             public int compare(Contact contact1, Contact contact2) {
                 String fullName1 = contact1.getFirstName() + " " + contact1.getLastName();
                 String fullName2 = contact2.getFirstName() + " " + contact2.getLastName();
-                return fullName1.compareTo(fullName2);
+                if (order.equals(ALPHABET_NORMAL_ORDER)) {
+                    return fullName1.compareTo(fullName2);
+                } else {
+                    return fullName2.compareTo(fullName1);
+                }
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortBySubstring(final String substring){
+        Collections.sort(items, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact contact1, Contact contact2) {
+                Boolean isContact1Contain = (contact1.getFirstName() + " " + contact1.getLastName()).contains(substring);
+                Boolean isContact2Contain = (contact2.getFirstName() + " " + contact2.getLastName()).contains(substring);
+                return isContact2Contain.compareTo(isContact1Contain);
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByPhoneCode(final String phoneCode) {
+        Collections.sort(items, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact contact1, Contact contact2) {
+                Boolean isContact1Contain = (contact1.getPhoneNumber()).contains(phoneCode);
+                Boolean isContact2Contain = (contact2.getPhoneNumber()).contains(phoneCode);
+                return isContact2Contain.compareTo(isContact1Contain);
             }
         });
         notifyDataSetChanged();

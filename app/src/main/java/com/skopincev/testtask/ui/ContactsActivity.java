@@ -42,6 +42,9 @@ public class ContactsActivity extends BaseActivity
     private static final String KEY_USER_EMAIL = "KEY_USER_EMAIL";
     private static final int DELETING_CONFIRMATION = 1;
     private static final int ADD_CONTACT = 2;
+    private static final int CHOOSE_ALPHABET_SORTING_MODE = 3;
+    private static final int TYPE_SUBSTRING = 4;
+    private static final int TYPE_PHONE_CODE = 5;
 
     @Inject
     ContactsPresenter presenter;
@@ -141,7 +144,32 @@ public class ContactsActivity extends BaseActivity
             }
         };
         et_first_name.setOnFocusChangeListener(onFocusChangeListener);
+        et_first_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_first_name.setHintTextColor(hintColorStateList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         et_last_name.setOnFocusChangeListener(onFocusChangeListener);
+        et_last_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_last_name.setHintTextColor(hintColorStateList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         et_phone_number.setOnFocusChangeListener(onFocusChangeListener);
         et_phone_number.addTextChangedListener(new TextWatcher() {
@@ -151,11 +179,13 @@ public class ContactsActivity extends BaseActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 et_phone_number.setTextColor(textColorStateList);
+                et_phone_number.setHintTextColor(hintColorStateList);
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
+
         et_email.setOnFocusChangeListener(onFocusChangeListener);
         et_email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -164,6 +194,7 @@ public class ContactsActivity extends BaseActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 et_email.setTextColor(textColorStateList);
+                et_email.setHintTextColor(hintColorStateList);
             }
 
             @Override
@@ -223,7 +254,151 @@ public class ContactsActivity extends BaseActivity
                                 et_phone_number.getText().toString());
                         presenter.addContact(newContact);
                         dialog.dismiss();
-                        dialog.cancel();
+                    }
+                });
+            }
+        });
+        return dialog;
+    }
+
+    private Dialog createAlphabetSortingModeDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Choose the sorting mode");
+        final CharSequence[] items = {ContactsRecyclerAdapter.ALPHABET_NORMAL_ORDER, ContactsRecyclerAdapter.ALPHABET_REVERSE_ORDER};
+        dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                adapter.sortByAlphabet(items[which].toString());
+            }
+        });
+        Dialog choosing = dialogBuilder.create();
+        return choosing;
+    }
+
+    private Dialog createTypePhoneCodeDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_type_phone_code, null);
+        final EditText et_phone_code = (EditText) view.findViewById(R.id.et_phone_code);
+
+        final ColorStateList hintColorStateList = et_phone_code.getHintTextColors();
+        final ColorStateList textColorStateList = et_phone_code.getTextColors();
+        View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    ((EditText)view).setHintTextColor(hintColorStateList);
+                    ((EditText)view).setTextColor(textColorStateList);
+                }
+            }
+        };
+        et_phone_code.setOnFocusChangeListener(onFocusChangeListener);
+        et_phone_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_phone_code.setTextColor(textColorStateList);
+                et_phone_code.setHintTextColor(hintColorStateList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(view);
+        dialogBuilder.setPositiveButton(R.string.dialog_add_positive_answer, null);
+        dialogBuilder.setNeutralButton(getString(R.string.dialog_add_neutral_answer), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        Dialog dialog = dialogBuilder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button neutralButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEUTRAL);
+                neutralButton.setTextColor(getResources().getColor(R.color.black));
+
+                Button positiveButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setTextColor(getResources().getColor(R.color.black));
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (et_phone_code.getText().length() == 0) {
+                            et_phone_code.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        } else if (!presenter.isPhoneCodeValid(et_phone_code.getText().toString())) {
+                            et_phone_code.setTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            showMessage(getString(R.string.dialog_phone_code_not_valid));
+                            return;
+                        }
+                        adapter.sortByPhoneCode(et_phone_code.getText().toString());
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        return dialog;
+    }
+
+    private Dialog createTypeSubstringDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_type_substring, null);
+        final EditText et_substring = (EditText) view.findViewById(R.id.et_substring);
+
+        final ColorStateList hintColorStateList = et_substring.getHintTextColors();
+        View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    ((EditText)view).setHintTextColor(hintColorStateList);
+                }
+            }
+        };
+        et_substring.setOnFocusChangeListener(onFocusChangeListener);
+        et_substring.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_substring.setHintTextColor(hintColorStateList);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(view);
+        dialogBuilder.setPositiveButton(R.string.dialog_add_positive_answer, null);
+        dialogBuilder.setNeutralButton(getString(R.string.dialog_add_neutral_answer), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        Dialog dialog = dialogBuilder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button neutralButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEUTRAL);
+                neutralButton.setTextColor(getResources().getColor(R.color.black));
+
+                Button positiveButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveButton.setTextColor(getResources().getColor(R.color.black));
+                positiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (et_substring.getText().length() == 0) {
+                            et_substring.setHintTextColor(getResources().getColor(R.color.dialogInfoNotAdded));
+                            return;
+                        }
+                        adapter.sortBySubstring(et_substring.getText().toString());
+                        dialog.dismiss();
                     }
                 });
             }
@@ -239,6 +414,15 @@ public class ContactsActivity extends BaseActivity
             }
             case ADD_CONTACT:{
                 return createAddContactDialog();
+            }
+            case CHOOSE_ALPHABET_SORTING_MODE:{
+                return createAlphabetSortingModeDialog();
+            }
+            case TYPE_SUBSTRING:{
+                return createTypeSubstringDialog();
+            }
+            case TYPE_PHONE_CODE:{
+                return createTypePhoneCodeDialog();
             }
         }
         return super.onCreateDialog(id);
@@ -259,6 +443,7 @@ public class ContactsActivity extends BaseActivity
             }
             case R.id.mi_delete:{
                 if (deleteMode){
+                    //TODO: refactor delete mode
                     if (adapter.getCheckedItems().size() > 0) {
                         showDialog(DELETING_CONFIRMATION);
                     } else {
@@ -273,9 +458,21 @@ public class ContactsActivity extends BaseActivity
                 }
                 break;
             }
-            case R.id.mi_sort:{
+            case R.id.mi_sort_by_alphabet:{
                 if (!deleteMode) {
-                    adapter.sortByAlphabet();
+                    showDialog(CHOOSE_ALPHABET_SORTING_MODE);
+                }
+                break;
+            }
+            case R.id.mi_sort_by_substring:{
+                if (!deleteMode) {
+                    showDialog(TYPE_SUBSTRING);
+                }
+                break;
+            }
+            case R.id.mi_sort_by_phone_code:{
+                if (!deleteMode) {
+                    showDialog(TYPE_PHONE_CODE);
                 }
                 break;
             }

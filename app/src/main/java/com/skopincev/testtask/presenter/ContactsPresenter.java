@@ -18,4 +18,5 @@ public interface ContactsPresenter {
     void deleteContacts(List<Contact> contacts);
     boolean isEmailValid(String email);
     boolean isPhoneNumberValid(String phoneNumber);
+    boolean isPhoneCodeValid(String phoneCode);
 }

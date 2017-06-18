@@ -71,12 +71,16 @@ public class StorioSqlApiImpl implements StorioSqlApi {
     }
 
     @Override
-    public Contact getContactByEmail(String email) {
+    public Contact getContact(Contact contact) {
         return storIOSQLite.get()
                 .object(Contact.class)
                 .withQuery(Query.builder()
                         .table(DBContract.ContactContract.TABLE_NAME)
-                        .where(DBContract.ContactContract.KEY_EMAIL + " = " + "\"" + email + "\"")
+                        .where(DBContract.ContactContract.KEY_OWNER_EMAIL + " = " + "\"" + contact.getOwnerEmail() + "\"" +
+                                " AND " + DBContract.ContactContract.KEY_FIRST_NAME + " = " + "\"" + contact.getFirstName() + "\"" +
+                                " AND " + DBContract.ContactContract.KEY_LAST_NAME + " = " + "\"" + contact.getLastName() + "\"" +
+                                " AND " + DBContract.ContactContract.KEY_PHONE_NUMBER + " = " + "\"" + contact.getPhoneNumber() + "\"" +
+                                " AND " + DBContract.ContactContract.KEY_EMAIL + " = " + "\"" + contact.getEmail() + "\"")
                         .build())
                 .withGetResolver(contactGetResolver)
                 .prepare()

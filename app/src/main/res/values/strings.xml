@@ -3,7 +3,7 @@
     <string name="sign_in_failed_message">Sign in failed!</string>
     <string name="btn_sign_out_text">Выйти</string>
     <string name="mi_logout">Logout</string>
-    <string name="mi_sort">Sort</string>
+    <string name="mi_sort_by_alphabet">Sort by alphabet</string>
     <string name="server_client_id">237811025554-po0qdd2gob5v9vnm444p612nkunppf1k.apps.googleusercontent.com</string>
     <string name="mi_add">Add</string>
     <string name="lbl_activity_contacts">Contacts</string>
@@ -37,5 +37,12 @@
     <string name="about_author">Author: Dmitriy Skopintsev</string>
     <string name="about_email">skopintsev2015@gmail.com</string>
     <string name="lbl_activity_about">About</string>
+    <string name="mi_sort_by_substring">Sort by substring</string>
+    <string name="mi_sort_by_phone_code">Sort by phone code</string>
+    <string name="dialog_substring_please_type_a_substring">Please, type a substring</string>
+    <string name="dialog_substring_hint">Substring</string>
+    <string name="dialog_substring_please_type_a_phone_code">Please, type a phone code</string>
+    <string name="dialog_phone_code_hint">Phone code</string>
+    <string name="dialog_phone_code_not_valid">Phone code is not valid!</string>
 
 </resources>

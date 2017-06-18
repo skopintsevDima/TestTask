@@ -110,7 +110,7 @@ public class ContactsPresenterImpl implements ContactsPresenter {
     @Override
     public void addContact(Contact contact) {
         sqlApi.put(contact);
-        view.onContactAdded(contact);
+        view.onContactAdded(sqlApi.getContact(contact));
     }
 
     @Override
@@ -147,6 +147,21 @@ public class ContactsPresenterImpl implements ContactsPresenter {
         String regExpn = "^[+]?[0-9]{10,13}$";
 
         CharSequence inputStr = phoneNumber;
+
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public boolean isPhoneCodeValid(String phoneCode) {
+        String regExpn = "^[+]?[0-9]{1,5}$";
+
+        CharSequence inputStr = phoneCode;
 
         Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
